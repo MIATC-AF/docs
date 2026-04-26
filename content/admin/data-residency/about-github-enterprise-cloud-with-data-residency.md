@@ -10,13 +10,15 @@ redirect_from:
   - /early-access/admin/preview-of-data-residency-for-github-enterprise/about-the-preview-of-data-residency-for-github-enterprise
   - /early-access/admin/private-ga-of-data-residency-for-github-enterprise-cloud/about-the-private-ga-of-data-residency-for-github-enterprise-cloud
   - /early-access/admin/data-residency-for-github-enterprise-cloud/about-data-residency-for-github-enterprise-cloud
+category:
+  - Get started with GitHub Enterprise
 ---
 
 By default, {% data variables.product.company_short %} stores data for {% data variables.product.prodname_dotcom_the_website %} in the USA. {% data reusables.data-residency.when-you-adopt-data-residency %} To learn how {% data variables.product.company_short %} handles data storage, see [AUTOTITLE](/admin/data-residency/about-storage-of-your-data-with-data-residency).
 
 You can **get started with data residency** by setting up a trial of {% data variables.product.prodname_ghe_cloud %}.
 
-<a href="https://github.com/account/enterprises/new?ref_cta=GHEC+trial&ref_loc=about+ghec+with+data+residency&ref_page=docs" target="_blank" class="btn btn-primary mt-3 mr-3 no-underline"><span>Set up a trial of {% data variables.product.prodname_ghe_cloud %}</span> {% octicon "link-external" height:16 aria-label="link-external" %}</a>
+<a href="https://github.com/account/enterprises/new?ref_product=ghec&ref_type=trial&ref_style=button&ref_plan=enterprise" target="_blank" class="btn btn-primary mt-3 mr-3 no-underline"><span>Set up a trial of {% data variables.product.prodname_ghe_cloud %}</span> {% octicon "link-external" height:16 aria-label="link-external" %}</a>
 
 ## What is {% data variables.product.prodname_ghe_cloud %}?
 

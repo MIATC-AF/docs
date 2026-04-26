@@ -6,13 +6,13 @@ versions:
   fpt: '*'
   ghec: '*'
   ghes: '*'
-type: tutorial
-topics:
-  - Security
 redirect_from:
   - /actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
   - /actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
   - /actions/how-tos/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+contentType: how-tos
+category:
+  - Secure your workflows
 ---
 
 {% data reusables.actions.enterprise-github-hosted-runners %}
@@ -128,7 +128,8 @@ The `aws-actions/configure-aws-credentials` action receives a JWT from the {% da
 
 ```yaml copy
 # Sample workflow to access AWS resources when workflow is tied to branch
-# The workflow Creates static website using aws s3
+# The workflow creates a static website using Amazon S3
+{% data reusables.actions.actions-not-certified-by-github-comment %}
 name: AWS example workflow
 on:
   push

@@ -7,7 +7,13 @@ versions:
   ghes: '*'
 redirect_from:
   - /contributing/writing-for-github-docs/style-guide
+category:
+  - Follow the style guide and content model
 ---
+
+<!--
+A condensed version of this style guide is available at `.github/instructions/style-guide-summary.instructions.md`, optimized for AI agents and quick reference. If you make significant changes to this full guide, update the summary file as well.
+-->
 
 > [!NOTE]
 > These guidelines are specific to {% data variables.product.company_short %}'s documentation. For general style questions or guidance on topics not covered here, see the [Microsoft Style Guide](https://docs.microsoft.com/style-guide/welcome/). For markup specific to source content on docs.github.com, see [AUTOTITLE](/contributing/syntax-and-versioning-for-github-docs/using-markdown-and-liquid-in-github-docs). For any questions about the GitHub brand, see our [GitHub Brand Guide](https://brand.github.com).<!-- markdownlint-disable-line search-replace -->
@@ -149,18 +155,30 @@ We should only use a CTA when the answer to both questions is yes.
 
 A CTA is an explicit direction to the user to take an immediate action, such as “Try Copilot for free” or “Create your own repository”. A CTA in our documentation should only lead people to a {% data variables.product.company_short %}-owned domain.
 
-For example, the CTA on [AUTOTITLE](/enterprise-cloud@latest/admin/overview/setting-up-a-trial-of-github-enterprise-cloud) links to [an enterprise sales page](https://github.com/account/enterprises/new?ref_cta=GHEC+trial&ref_loc=setting+up+a+trial+of+github+enterprise+cloud&ref_page=docs) on {% data variables.product.prodname_dotcom_the_website %}.
+For example, the CTA on [AUTOTITLE](/enterprise-cloud@latest/admin/overview/setting-up-a-trial-of-github-enterprise-cloud) links to [an enterprise sales page](https://github.com/account/enterprises/new?ref_product=ghec&ref_type=trial&ref_style=text&ref_plan=enterprise) on {% data variables.product.prodname_dotcom_the_website %}.
 
-Style a CTA using the following format.
+### Building CTAs
 
-```html
-{% raw %}<a href="https://github.com/DESTINATION/URL?ref_cta=CTA+NAME&ref_loc=LOCATION&ref_page=docs" target="_blank" class="btn btn-primary mt-3 mr-3 no-underline"><span>Try PRODUCT NAME</span> {% octicon "link-external" height:16 %}</a>{% endraw %}
+To build a valid CTA URL with the correct parameters, use the CTA builder script in your docs repository checkout:
+
+```shell
+npm run cta-builder
 ```
 
-Replace the placeholders with the relevant information for your CTA.
-* `DESTINATION/URL`: The URL that the button should navigate to.
-* `CTA+NAME`: The name of the CTA. For example, `GHEC+trial` or `Copilot+Business+Trial`.
-* `LOCATION`: The location in {% data variables.product.prodname_docs %} of the CTA. For example, `Setting+up+a+trial+of+GitHub+Enterprise+Cloud`.
+The script will guide you through an interactive process to:
+* Select the appropriate {% data variables.product.company_short %} product (`ref_product`)
+  * Use `github` as the default when the link is not specific to a particular feature or product
+* Choose the type of action (`ref_type`)
+* Specify the formatting style (`ref_style`)
+* Optionally select a specific plan (`ref_plan`)
+
+The script provides all available options for each parameter and generates a complete, valid CTA URL at the end. Use this tool to ensure you're using current, approved values for CTA parameters.
+
+For example, the script might generate a URL like:
+
+```
+https://github.com/account/enterprises/new?ref_product=ghec&ref_type=trial&ref_style=button&ref_plan=enterprise
+```
 
 ## Code
 
@@ -868,12 +886,6 @@ Do not capitalize commonly used features like pull requests, topics, or issues.
 ## Product-specific conventions
 
 This section describes additional conventions that are specific to GitHub products.
-
-### {% data variables.product.prodname_copilot %}
-
-#### {% data variables.product.prodname_copilot_short %} code completion
-
-The {% data variables.product.prodname_copilot_short %} feature that suggests code as you are working on a file is called "{% data variables.product.prodname_copilot_short %} code completion" or just "code completion" (singular). Only use "code suggestions" (plural) when referring to multiple instances of code completion suggestions. For example, "When using {% data variables.product.prodname_copilot_short %} code completion..." but "the plan includes 2,000 code completions..."
 
 ### {% data variables.product.prodname_actions %}
 
@@ -1649,7 +1661,7 @@ Unless the content is about administering an enterprise product, describe an ind
 With {% data variables.product.company_short %}'s enterprise products, administrators manage an enterprise account. An enterprise account can own multiple organizations, and people's user accounts can be members of the organizations. For more information, see the "Roles in an enterprise" article for each product.
 
 * [{% data variables.product.prodname_ghe_cloud %}](/enterprise-cloud@latest/admin/user-management/managing-users-in-your-enterprise/roles-in-an-enterprise)
-* [{% data variables.product.prodname_ghe_server %}](/enterprise-server/admin/user-management/managing-users-in-your-enterprise/roles-in-an-enterprise)
+* [{% data variables.product.prodname_ghe_server %}](/enterprise-server@latest/admin/user-management/managing-users-in-your-enterprise/roles-in-an-enterprise)
 
 If the reader manages an enterprise account, and you're describing the people's accounts that they manage, use "user account." This applies to the following products.
 

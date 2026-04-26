@@ -6,11 +6,11 @@ versions:
   feature: copilot
 category:
   - Documenting code
+  - Author and optimize with Copilot
+  - Scale institutional knowledge
 complexity:
   - Simple
 octicon: book
-topics:
-  - Copilot
 redirect_from:
   - /copilot/copilot-chat-cookbook/documenting-code/writing-discussions-or-blog-posts
   - /copilot/tutorials/copilot-chat-cookbook/documenting-code/writing-discussions-or-blog-posts

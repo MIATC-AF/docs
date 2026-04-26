@@ -5,13 +5,12 @@ versions:
   fpt: '*'
   ghes: '*'
   ghec: '*'
-topics:
-  - Identity
-  - Access management
 redirect_from:
   - /github/authenticating-to-github/about-authentication-to-github
   - /github/authenticating-to-github/keeping-your-account-and-data-secure/about-authentication-to-github
 shortTitle: Authentication to GitHub
+category:
+  - Learn about authentication
 ---
 ## About authentication to {% data variables.product.github %}
 
@@ -48,7 +47,7 @@ If you need to use multiple accounts on {% data variables.location.product_locat
   * You'll create a password when you create your account on {% data variables.product.github %}. We recommend that you use a password manager to generate a random and unique password. For more information, see [AUTOTITLE](/authentication/keeping-your-account-and-data-secure/creating-a-strong-password).{% ifversion fpt or ghec %}
   * If you have not enabled 2FA, {% data variables.product.github %} may ask for additional verification when you first sign in from a new or unrecognized device, such as a new browser profile, a browser where the cookies have been deleted, or a new computer. For more information, see [AUTOTITLE](/authentication/keeping-your-account-and-data-secure/verifying-new-devices-when-signing-in).{% endif %} {% ifversion fpt or ghec %}
 * **Social login**
-  * You'll authenticate with one of the supported social login providers (currently only Google is supported) when you create your account on {% data variables.product.github %}. We recommend that you also configure 2FA and add a passkey or a password as an additional account recovery mechanism.
+  * You'll authenticate with Google or Apple, which are the supported social login providers when you create your account on {% data variables.product.github %}. We recommend that you also configure 2FA and add a passkey or a password as an additional account recovery mechanism.
   * If you have an existing account created with a password, you can add your social login email to the account. This allows you to use your social login identity as a first-factor (password) replacement when you sign in to {% data variables.product.github %}.
   * You can unlink your social login identities from your {% data variables.product.github %} email settings page. For more information, see [AUTOTITLE](/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-your-personal-account/unlinking-your-email-address-from-a-locked-account) {% endif %}
 * **Two-factor authentication (2FA)** (recommended)
@@ -104,7 +103,7 @@ If you want to use the API in a {% data variables.product.prodname_actions %} wo
 
 Note that `GITHUB_TOKEN` can only access resources within the repository that contains the workflow. If you need to make changes to resources outside of the workflow repository, you will need to use a {% data variables.product.pat_generic %} or {% data variables.product.prodname_github_app %}.
 
-For more information, see [AUTOTITLE](/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token).
+For more information, see [AUTOTITLE](/actions/security-guides/automatic-token-authentication).
 
 ## Authenticating with the command line
 
@@ -154,3 +153,5 @@ To use a {% data variables.product.pat_generic %} or SSH key to access resources
 | User access token for a {% data variables.product.prodname_github_app %} | `ghu_` | [AUTOTITLE](/apps/creating-github-apps/authenticating-with-a-github-app/identifying-and-authorizing-users-for-github-apps) |
 | Installation access token for a {% data variables.product.prodname_github_app %} | `ghs_` | [AUTOTITLE](/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation) |
 | Refresh token for a {% data variables.product.prodname_github_app %} | `ghr_` | [AUTOTITLE](/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens) |
+
+For more information {% data variables.product.github %}'s token types and their management, see [AUTOTITLE](/organizations/managing-programmatic-access-to-your-organization/github-credential-types).

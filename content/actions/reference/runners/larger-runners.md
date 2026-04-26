@@ -1,13 +1,16 @@
 ---
 title: Larger runners reference
 shortTitle: Larger runners
-intro: 'Find information about larger runners, including their specifications and customization options.'
+intro: Find information about larger runners, including their specifications and customization options.
 versions:
   fpt: '*'
   ghes: '*'
   ghec: '*'
 redirect_from:
   - /actions/reference/larger-runners-reference
+category:
+  - Set up runners
+contentType: reference
 ---
 
 {% ifversion ghes %}
@@ -64,8 +67,6 @@ You can choose from several specifications for {% data variables.actions.hosted_
 The following machines are available for macOS {% data variables.actions.hosted_runners %}.
 
 {% data reusables.actions.larger-runners-table %}
-
->[!NOTE] The XLarge macOS runner is in public preview and subject to change.
 
 ## Limitations for macOS {% data variables.actions.hosted_runners %}
 

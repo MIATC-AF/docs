@@ -5,19 +5,23 @@ versions:
   fpt: '*'
   ghec: '*'
   ghes: '*'
-topics:
-  - Billing
-  - Enterprise
-  - Licensing
 shortTitle: Combined enterprise use
 redirect_from:
   - /billing/managing-your-license-for-github-enterprise/about-licenses-for-github-enterprise
 contentType: concepts
+category:
+  - Manage enterprise licenses
 ---
 
-## About licensing for {% data variables.product.prodname_enterprise %}
+## About enterprise deployments
 
 {% data reusables.enterprise.about-deployment-methods %}
+
+If you use both {% data variables.product.prodname_ghe_cloud %} and {% data variables.product.prodname_ghe_server %}, you'll have **an enterprise account for each.** Even if you **only** use {% data variables.product.prodname_ghe_server %}, we recommend creating an enterprise account on {% data variables.product.prodname_ghe_cloud %}. This will make it easier to contact {% data variables.contact.enterprise_support %} and share support bundles with them. To create an additional enterprise account, contact [{% data variables.product.prodname_dotcom %}'s Sales team](https://enterprise.github.com/contact).
+
+For most administration options, such as policies, you will manage each enterprise account separately. However, you can use the enterprise account on {% data variables.product.prodname_ghe_cloud %} to view all license usage across all deployments.
+
+## About licensing for {% data variables.product.prodname_enterprise %}
 
 {% data reusables.enterprise-licensing.unique-user-licensing-model %}
 

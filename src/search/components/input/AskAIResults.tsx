@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { uniqBy } from 'lodash-es'
 import { executeAISearch } from '../helpers/execute-search-actions'
 import { useRouter } from 'next/router'
@@ -22,7 +22,6 @@ import { sendEvent, uuidv4 } from '@/events/components/events'
 import { EventType } from '@/events/types'
 import { generateAISearchLinksJson } from '../helpers/ai-search-links-json'
 import { ASK_AI_EVENT_GROUP } from '@/events/components/event-groups'
-import { useCTAPopoverContext } from '@/frame/components/context/CTAContext'
 
 import type { AIReference } from '../types'
 
@@ -83,7 +82,6 @@ export function AskAIResults({
     aiCouldNotAnswer: boolean
     connectedEventId?: string
   }>('ai-query-cache', 1000, 7)
-  const { isOpen: isCTAOpen, permanentDismiss: permanentlyDismissCTA } = useCTAPopoverContext()
 
   let copyUrl = ``
   if (window?.location?.href) {
@@ -144,12 +142,6 @@ export function AskAIResults({
     setInitialLoading(true)
     setResponseLoading(true)
     disclaimerRef.current?.focus()
-
-    // We permanently dismiss the CTA after performing an AI Search because the
-    // user has tried it and doesn't require additional CTA prompting to try it
-    if (isCTAOpen) {
-      permanentlyDismissCTA()
-    }
 
     const cachedData = getItem(query, version, router.locale || 'en')
     if (cachedData) {
@@ -414,14 +406,8 @@ export function AskAIResults({
         <div className={styles.postAnswerWidgets}>
           <IconButton
             icon={ThumbsupIcon}
-            className={'btn-octicon'}
+            className={`btn-octicon ${styles.thumbsUpButton} ${feedbackSelected === 'up' ? styles.selected : ''}`}
             aria-label={t('ai.thumbs_up')}
-            sx={{
-              border: feedbackSelected === 'up' ? '1px solid var(--color-btn-text)' : 'none',
-              backgroundColor: feedbackSelected === 'up' ? '' : 'unset',
-              boxShadow: 'unset',
-              color: feedbackSelected === 'up' ? 'var(--fgColor-accent) !important;' : '',
-            }}
             onClick={() => {
               setFeedbackSelected('up')
               announce(t('ai.thumbs_announcement'))
@@ -436,14 +422,8 @@ export function AskAIResults({
           ></IconButton>
           <IconButton
             icon={ThumbsdownIcon}
-            className={'btn-octicon'}
+            className={`btn-octicon ${styles.thumbsDownButton} ${feedbackSelected === 'down' ? styles.selected : ''}`}
             aria-label={t('ai.thumbs_down')}
-            sx={{
-              border: feedbackSelected === 'down' ? '1px solid var(--color-btn-text)' : 'none',
-              backgroundColor: feedbackSelected === 'down' ? '' : 'unset',
-              boxShadow: 'unset',
-              color: feedbackSelected === 'down' ? 'var(--fgColor-accent) !important;' : '',
-            }}
             onClick={() => {
               setFeedbackSelected('down')
               announce(t('ai.thumbs_announcement'))
@@ -457,14 +437,8 @@ export function AskAIResults({
             }}
           ></IconButton>
           <IconButton
-            sx={{
-              border: 'none',
-              backgroundColor: 'unset',
-              boxShadow: 'unset',
-              color: isCopied ? 'var(--fgColor-accent) !important;' : '',
-            }}
             icon={isCopied ? CheckIcon : ShareIcon}
-            className="btn-octicon"
+            className={`btn-octicon ${styles.shareButton} ${isCopied ? styles.copied : ''}`}
             aria-label={
               isCopied ? t('search.ai.share_copied_announcement') : t('search.ai.share_answer')
             }
@@ -483,7 +457,7 @@ export function AskAIResults({
       ) : null}
       {!aiCouldNotAnswer && !responseLoading && references && references.length > 0 ? (
         <>
-          <ActionList className={styles.referencesList} showDividers>
+          <ActionList className={styles.referencesList}>
             <ActionList.Group data-testid="ai-references">
               <ActionList.GroupHeading
                 as="h3"
@@ -507,7 +481,7 @@ export function AskAIResults({
                         referenceOnSelect(source.url)
                       }}
                       active={refIndex === selectedIndex}
-                      ref={(element) => {
+                      ref={(element: HTMLLIElement | null) => {
                         if (listElementsRef.current) {
                           listElementsRef.current[refIndex] = element
                         }
@@ -525,20 +499,7 @@ export function AskAIResults({
           </ActionList>
         </>
       ) : null}
-      <div
-        aria-live="assertive"
-        style={{
-          position: 'absolute',
-          width: '1px',
-          height: '1px',
-          padding: '0',
-          margin: '-1px',
-          overflow: 'hidden',
-          clip: 'rect(0, 0, 0, 0)',
-          whiteSpace: 'nowrap',
-          border: '0',
-        }}
-      >
+      <div aria-live="assertive" className={styles.displayForScreenReader}>
         {announcement}
       </div>
     </div>
@@ -566,6 +527,6 @@ function sendAISearchResultEvent({
     ai_search_result_response_status: status,
     ai_search_result_connected_event_id: connectedEventId,
     eventGroupKey: ASK_AI_EVENT_GROUP,
-    eventGroupId: eventGroupId,
+    eventGroupId,
   })
 }

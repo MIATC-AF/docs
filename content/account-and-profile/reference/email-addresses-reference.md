@@ -1,13 +1,14 @@
 ---
 title: Email addresses reference
 shortTitle: Email addresses
-intro: 'Find information about your email addresses on {% data variables.product.github %}, including verification, privacy, and commit attribution.'
-topics:
-  - Accounts
+intro: Find information about your email addresses on {% data variables.product.github %}, including verification, privacy, and commit attribution.
 versions:
   fpt: '*'
   ghes: '*'
   ghec: '*'
+contentType: reference
+category:
+  - Manage your email
 ---
 
 ## Email verification restrictions

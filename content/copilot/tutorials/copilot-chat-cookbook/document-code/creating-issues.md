@@ -8,9 +8,9 @@ complexity:
   - Simple
 octicon: copilot
 category:
-  - Document code
-topics:
-  - Copilot
+  - Documenting code
+  - Author and optimize with Copilot
+  - Scale institutional knowledge
 contentType: tutorials
 ---
 

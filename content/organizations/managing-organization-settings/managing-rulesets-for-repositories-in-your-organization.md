@@ -6,9 +6,9 @@ versions:
   ghec: '*'
   ghes: '*'
 permissions: Organization owners and users with the "Manage organization ref update rules and rulesets" permission can manage rulesets at the organization level.
-topics:
-  - Organizations
 shortTitle: Manage rulesets
+category:
+  - Set repository policies
 ---
 
 ## About managing rulesets for an organization
@@ -43,7 +43,7 @@ You can use the REST and GraphQL APIs to manage rulesets. For more information, 
 {% data reusables.organizations.access-ruleset-settings %}
 {% data reusables.repositories.delete-ruleset-steps %}
 
-{% ifversion repo-rules-management %}
+{% ifversion repo-rules-history %}
 
 ## Using ruleset history
 
@@ -56,7 +56,11 @@ You can use the REST and GraphQL APIs to manage rulesets. For more information, 
 {% data reusables.organizations.access-ruleset-settings %}
 {% data reusables.repositories.ruleset-history %}
 
-### Importing a ruleset
+{% endif %}
+
+{% ifversion repo-rules-management %}
+
+## Importing a ruleset
 
 You can import a ruleset from another repository or organization using the exported JSON file from the previous section. This can be useful if you want to apply the same ruleset to multiple repositories or organizations.
 

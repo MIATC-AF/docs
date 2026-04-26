@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, FormEvent } from 'react'
+import React, { useState, useEffect, useRef, FormEvent } from 'react'
 import { FormControl, IconButton, Select, SegmentedControl } from '@primer/react'
 import { CheckIcon, CopyIcon, InfoIcon } from '@primer/octicons-react'
 import { announce } from '@primer/live-region-element'
@@ -13,6 +13,7 @@ import hljsCurl from 'highlightjs-curl'
 
 import { useTranslation } from '@/languages/components/useTranslation'
 import useClipboard from '@/rest/components/useClipboard'
+import { CODE_SAMPLE_LANGUAGE_COOKIE_NAME } from '@/frame/lib/constants'
 import {
   getShellExample,
   getGHExample,
@@ -100,7 +101,6 @@ export function RestCodeSamples({ operation, slug, heading }: Props) {
   const [selectedLanguage, setSelectedLanguage] = useState(languageSelectOptions[0])
   const [selectedExample, setSelectedExample] = useState(exampleSelectOptions[0])
   const [selectedResponse, setSelectedResponse] = useState(responseSelectOptions[0])
-  const [responseMaxHeight, setResponseMaxHeight] = useState(0)
 
   const isSingleExample = languageExamples.length === 1
   const displayedExample: ExampleT = languageExamples[selectedExample.languageIndex]
@@ -115,27 +115,14 @@ export function RestCodeSamples({ operation, slug, heading }: Props) {
 
   const handleLanguageSelection = (languageKey: CodeSampleKeys) => {
     setSelectedLanguage(languageKey)
-    Cookies.set('codeSampleLanguagePreferred', languageKey)
-  }
-
-  const handleResponseResize = () => {
-    if (requestCodeExample.current) {
-      const requestCodeHeight = requestCodeExample.current.clientHeight || 0
-      const { innerHeight: height } = window
-      if (responseCodeExample) {
-        // 520 pixels roughly accounts for the space taken up by the
-        // nav bar, headers, language picker, method section, and response
-        // picker
-        setResponseMaxHeight(height - requestCodeHeight - 520)
-      }
-    }
+    Cookies.set(CODE_SAMPLE_LANGUAGE_COOKIE_NAME, languageKey)
   }
 
   // Change the language based on cookies
   useEffect(() => {
     // If the user previously selected a language preference and the language
     // is available in this component set it as the selected language
-    const cookieValue = Cookies.get('codeSampleLanguagePreferred')
+    const cookieValue = Cookies.get(CODE_SAMPLE_LANGUAGE_COOKIE_NAME)
     const preferredCodeLanguage = languageSelectOptions.find((item) => item === cookieValue)
     if (cookieValue && preferredCodeLanguage) {
       setSelectedLanguage(cookieValue as CodeSampleKeys)
@@ -152,7 +139,6 @@ export function RestCodeSamples({ operation, slug, heading }: Props) {
     // (ClientSideHighlightJS) will have already handled highlighting
     if (reqElem && !firstRender.current) {
       highlightElement(reqElem)
-      handleResponseResize()
     }
   }, [selectedLanguage])
 
@@ -195,15 +181,6 @@ export function RestCodeSamples({ operation, slug, heading }: Props) {
       firstRender.current = false
     }
   }, [])
-
-  // Handle the resizing of the response section when the window is resized
-  useEffect(() => {
-    handleResponseResize()
-    window.addEventListener('resize', handleResponseResize)
-    return () => {
-      window.removeEventListener('resize', handleResponseResize)
-    }
-  })
 
   const [isCopied, setCopied] = useClipboard(displayedExample[selectedLanguage] as string, {
     successDuration: 1400,
@@ -360,7 +337,6 @@ export function RestCodeSamples({ operation, slug, heading }: Props) {
                 'border-top rounded-1 my-0',
               )}
               data-highlight={'json'}
-              style={{ maxHeight: responseMaxHeight }}
               // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
               tabIndex={0}
             >

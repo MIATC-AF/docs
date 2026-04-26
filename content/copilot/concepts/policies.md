@@ -5,13 +5,9 @@ allowTitleToDifferFromFilename: true
 intro: 'Learn about the policies that control the availability of {% data variables.product.prodname_copilot %} features and models for users granted a license through your organization or an organization in your enterprise.'
 versions:
   feature: copilot
-topics:
-  - Copilot
-  - Policy
-  - Access management
-  - Organizations
-  - Enterprise
 contentType: concepts
+category: 
+  - Manage Copilot for a team
 ---
 
 ## About policies for {% data variables.product.prodname_copilot_short %}
@@ -46,13 +42,17 @@ Enterprise owners can choose to set policies for {% data variables.product.prodn
 
 If a policy is defined at the enterprise level, the policy applies to all users and control of the policy is disabled at the organization level.
 
+### Granular organization selection
+
+**For the {% data variables.copilot.copilot_cloud_agent %} policy**, enterprise owners can choose to enable the feature for specific organizations rather than applying a blanket enterprise-wide setting. When **Enabled for selected organizations** is selected by an enterprise owner or an AI manager, only the selected organizations can enable the feature. Organizations can be selected individually or by using organization custom properties.
+
 ### No policy
 
 If an enterprise owner selects **No policy**, the impact depends on whether a user has access to {% data variables.product.prodname_copilot_short %} through an organization or directly from the enterprise.
 
 For members who receive a {% data variables.product.prodname_copilot_short %} license from the organization, organization owners can choose their policy. If a member receives access to {% data variables.product.prodname_copilot_short %} through multiple organizations with conflicting policies, either the least or most permissive policy may apply, depending on the policy. For more information, see [AUTOTITLE](/copilot/reference/feature-availability-enterprise).
 
-For users who receive access to {% data variables.product.prodname_copilot_short %} directly from the enterprise rather than from an organization, the **Policies for enterprise-assigned users** setting determines whether "No policy" defaults to enabled or disabled. {% data reusables.copilot.direct-assignment-rollout %}
+For users who receive access to {% data variables.product.prodname_copilot_short %} directly from the enterprise rather than from an organization, the **Policies for enterprise-assigned users** setting determines whether "No policy" defaults to enabled or disabled.
 
 ## Next steps
 

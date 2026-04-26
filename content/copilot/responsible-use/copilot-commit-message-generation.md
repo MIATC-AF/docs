@@ -5,9 +5,9 @@ allowTitleToDifferFromFilename: true
 intro: 'Learn how to use {% data variables.product.prodname_copilot_short %} commit message generation responsibly by understanding its purposes, capabilities, and limitations.'
 versions:
   feature: copilot
-topics:
-  - Copilot
 contentType: rai
+category: 
+  - Responsible use
 ---
 
 ## About {% data variables.product.prodname_copilot_short %} commit message generation

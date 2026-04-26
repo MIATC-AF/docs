@@ -6,11 +6,11 @@ versions:
   feature: copilot
 category:
   - Security analysis
+  - Author and optimize with Copilot
+  - Improve quality and maintainability
 complexity:
   - Simple
 octicon: code
-topics:
-  - Copilot
 redirect_from:
   - /copilot/tutorials/copilot-chat-cookbook/security-analysis/securing-your-repository
   - /copilot/tutorials/copilot-chat-cookbook/security-analysis/secure-your-repository

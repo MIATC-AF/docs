@@ -1,5 +1,4 @@
 import fs from 'fs'
-import path from 'path'
 
 import { visit, Test } from 'unist-util-visit'
 import { fromMarkdown } from 'mdast-util-from-markdown'
@@ -67,7 +66,9 @@ export async function updateInternalLinks(files: string[], options = {}) {
 async function updateFile(
   file: string,
   context: {
+    // Using any because page data structures vary by page type (articles, guides, etc.)
     pages: Record<string, any>
+    // Using any because redirects can be strings or redirect objects with various properties
     redirects: any
     currentLanguage: string
     userLanguage: string
@@ -81,8 +82,8 @@ async function updateFile(
 
   // Since this function can process both `.md` and `.yml` files,
   // when treating a `.md` file, the `data` from `frontmatter(rawContent)`
-  // is easy. But when dealing a file like `data/learning-tracks/foo.yml`
-  // then the `frontmatter(rawContent).data` always becomes `{}`.
+  // is easy. But when dealing a `.yml` file,
+  // the `frontmatter(rawContent).data` always becomes `{}`.
   // And since the Yaml file might contain arrays of internal linked
   // pathnames, we have to re-read it fully.
   if (file.endsWith('.yml')) {
@@ -92,7 +93,9 @@ async function updateFile(
   let newContent = content
   const ast = fromMarkdown(newContent)
 
+  // Using any[] because replacements can contain various mdast node types with different structures
   const replacements: any[] = []
+  // Using any[] because warnings contain various error information depending on the issue type
   const warnings: any[] = []
 
   const newData = structuredClone(data)
@@ -102,23 +105,10 @@ async function updateFile(
 
   // This configuration determines which nested things to bother looking
   // into.
+  // Using any because frontmatter values can be strings, arrays, or nested objects
   const HAS_LINKS: Record<string, any> = {
     featuredLinks: ['gettingStarted', 'startHere', 'guideCards', 'popular'],
     introLinks: ANY,
-    includeGuides: IS_ARRAY,
-  }
-
-  if (
-    file.split(path.sep).includes('data') &&
-    file.split(path.sep).includes('learning-tracks') &&
-    file.endsWith('.yml')
-  ) {
-    // data/learning-tracks/**/*.yml files are different because the keys
-    // are arbitrary but what they might all have in common is a key
-    // there called `guides`
-    for (const key of Object.keys(data)) {
-      HAS_LINKS[key] = ['guides']
-    }
   }
 
   for (const [key, seek] of Object.entries(HAS_LINKS)) {
@@ -215,8 +205,7 @@ async function updateFile(
 
       const hasQuotesAroundLink = content.includes(`"${asMarkdown}`)
 
-      // @ts-ignore
-      const xValue = node?.children?.[0]?.value
+      const xValue = (node?.children?.[0] as any)?.value
 
       if (opts.setAutotitle) {
         if (hasQuotesAroundLink) {
@@ -370,9 +359,12 @@ function linkMatcher(node: Node) {
 }
 
 function getNewFrontmatterLinkList(
+  // Using any[] because frontmatter links can be strings or objects with href/title properties
   list: any[],
   context: {
+    // Using any because page data structures vary by page type
     pages: Record<string, any>
+    // Using any because redirects can be strings or redirect objects
     redirects: any
     currentLanguage: string
     userLanguage: string
@@ -447,6 +439,7 @@ function getNewFrontmatterLinkList(
 // Try to return the line in the raw content that entry was on.
 // It's hard to know exactly because the `entry` is the result of parsing
 // the YAML, most likely, from the front
+// Using any because entry can be a string or an object with various link properties
 function findLineNumber(entry: any, rawContent: string) {
   let number = 0
   for (const line of rawContent.split(/\n/g)) {
@@ -480,6 +473,7 @@ function stripLiquid(text: string) {
   return text
 }
 
+// Using any[] for generic array comparison - works with strings, objects, etc.
 function equalArray(arr1: any[], arr2: any[]) {
   return arr1.length === arr2.length && arr1.every((item, i) => item === arr2[i])
 }
@@ -487,7 +481,9 @@ function equalArray(arr1: any[], arr2: any[]) {
 function getNewHref(
   href: string,
   context: {
+    // Using any because page data structures vary by page type
     pages: Record<string, any>
+    // Using any because redirects can be strings or redirect objects
     redirects: any
     currentLanguage: string
     userLanguage: string

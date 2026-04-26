@@ -1,16 +1,15 @@
 ---
-  title: Upgrading with an upgrade package
-  intro: 'Learn how to use an upgrade package to upgrade {% data variables.product.prodname_ghe_server %} to a newer feature release.'
-  redirect_from:
-    - /admin/monitoring-managing-and-updating-your-instance/updating-the-virtual-machine-and-physical-resources/upgrading-github-enterprise-server#upgrading-a-standalone-instance-using-an-upgrade-package
-    - /admin/enterprise-management/updating-the-virtual-machine-and-physical-resources/upgrading-github-enterprise-server#upgrading-with-an-upgrade-package
-  versions:
-    ghes: '*'
-  type: how_to
-  topics:
-    - Enterprise
-    - Upgrades
-  shortTitle: Upgrade with an upgrade package
+title: Upgrading with an upgrade package
+intro: Learn how to use an upgrade package to upgrade {% data variables.product.prodname_ghe_server %} to a newer feature release.
+redirect_from:
+  - /admin/monitoring-managing-and-updating-your-instance/updating-the-virtual-machine-and-physical-resources/upgrading-github-enterprise-server#upgrading-a-standalone-instance-using-an-upgrade-package
+  - /admin/enterprise-management/updating-the-virtual-machine-and-physical-resources/upgrading-github-enterprise-server#upgrading-with-an-upgrade-package
+versions:
+  ghes: '*'
+shortTitle: Upgrade with an upgrade package
+contentType: how-tos
+category:
+  - Back up and upgrade your instance
 ---
 
 Using the administrative shell, you can install an upgrade package with the `ghe-upgrade` utility.
@@ -59,6 +58,9 @@ While you can use a hotpatch to upgrade to the latest patch release within a fea
    ```shell
    tail -f /data/user/common/ghe-config.log
    ```
+
+   The configuration runs in the background and you don't need to run `ghe-config-apply` explicitly unless you encounter a problem.
+   > [!WARNING] If you are upgrading a node in a multi-node cluster, running `ghe-config-apply` on the command line or saving settings in the {% data variables.enterprise.management_console %} may fail and result in an incomplete upgrade if not all the nodes are upgraded to the same version. Please use `ghe-single-config-apply` instead.
 
 1. Optionally, after the upgrade, validate the upgrade by configuring an IP exception list to allow access to a specified list of IP addresses. See [AUTOTITLE](/admin/configuration/configuring-your-enterprise/enabling-and-scheduling-maintenance-mode#validating-changes-in-maintenance-mode-using-the-ip-exception-list).
 1. For single node upgrades, perform any post-upgrade tasks including disabling maintenance mode so users can use {% data variables.location.product_location %}.

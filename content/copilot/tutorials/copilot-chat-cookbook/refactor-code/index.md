@@ -7,12 +7,11 @@ redirect_from:
   - /copilot/tutorials/copilot-chat-cookbook/refactoring-code
 versions:
   feature: copilot
-topics:
-  - Copilot
 children:
   - /improve-code-readability
   - /fix-lint-errors
   - /refactor-for-optimization
+  - /refactor-for-sustainability
   - /refactor-design-patterns
   - /refactor-data-access-layers
   - /decouple-business-logic

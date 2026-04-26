@@ -1,13 +1,14 @@
 ---
 title: Profile reference
-intro: 'Reference information for your {% data variables.product.github %} profile.'
+intro: Reference information for your {% data variables.product.github %} profile.
 versions:
   fpt: '*'
   ghes: '*'
   ghec: '*'
-topics:
-  - Profiles
 shortTitle: Profile reference
+contentType: reference
+category:
+  - Customize your profile
 ---
 
 ## Visibility of profile information

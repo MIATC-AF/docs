@@ -1,14 +1,16 @@
 # This Dockerfile is used solely for production deployments to Moda
 # For building this file locally, see src/deployments/production/README.md
-# Environment variables are set in the Moda configuration:
+# Most environment variables are set in the Moda configuration:
 #   config/moda/configuration/*/env.yaml
+# V8 heap sizing is set here via NODE_OPTIONS and mirrored in
+# the Moda config files for defense-in-depth.
 
 # ---------------------------------------------------------------
 # BASE STAGE: Install linux dependencies and set up the node user
 # ---------------------------------------------------------------
 # To update the sha:
 # https://github.com/github/gh-base-image/pkgs/container/gh-base-image%2Fgh-base-noble
-FROM ghcr.io/github/gh-base-image/gh-base-noble:20251002-210935-gc0c2a3725 AS base
+FROM ghcr.io/github/gh-base-image/gh-base-noble:20260326-105710-g59112a0a7@sha256:ba809251141daf76a02c7c064ae2c3b27a904f2f62b16582f62fe4328267f38f AS base
 
 # Install curl for Node install and determining the early access branch
 # Install git for cloning docs-early-access & translations repos
@@ -84,7 +86,7 @@ WORKDIR $APP_HOME
 # Source code
 COPY --chown=node:node src src/
 COPY --chown=node:node package.json ./
-COPY --chown=node:node next.config.js ./
+COPY --chown=node:node next.config.ts ./
 COPY --chown=node:node tsconfig.json ./
 
 # From the clones stage
@@ -125,7 +127,7 @@ WORKDIR $APP_HOME
 # Source code
 COPY --chown=node:node src src/
 COPY --chown=node:node package.json ./
-COPY --chown=node:node next.config.js ./
+COPY --chown=node:node next.config.ts ./
 COPY --chown=node:node tsconfig.json ./
 
 # From clones stage
@@ -151,7 +153,13 @@ COPY --chown=node:node --from=precompute_stage $APP_HOME/.pageinfo-cache.json.br
 ARG BUILD_SHA
 ENV BUILD_SHA=$BUILD_SHA
 
+# V8 heap limit as a percentage of the container cgroup memory limit.
+# Uses --max-old-space-size-percentage (Node 24+) so the heap adapts
+# automatically when K8s memory limits change. 80% leaves ~20% headroom
+# for off-heap memory (Buffers, V8 code cache, libuv) and OS overhead.
+# Raised from 75% on advice from performance engineering to reduce GC
+# pressure during traffic spikes.
+ENV NODE_OPTIONS="--max-old-space-size-percentage=80"
+
 # Entrypoint to start the server
-# Note: Currently we have to use tsx because
-# we have a mix of `.ts` and `.js` files with multiple import patterns
 CMD ["node_modules/.bin/tsx", "src/frame/server.ts"]

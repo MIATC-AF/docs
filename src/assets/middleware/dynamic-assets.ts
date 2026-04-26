@@ -76,7 +76,7 @@ export default async function dynamicAssets(
     //    < 302
     //    < location: /assets/images/site/logo.web
     //
-    return res.redirect(302, req.path)
+    return res.safeRedirect(302, req.path)
   }
 
   // From PNG to WEBP, if the PNG exists
@@ -143,9 +143,13 @@ export default async function dynamicAssets(
       const buffer = await image.webp({ effort }).toBuffer()
       assetCacheControl(res)
       return res.type('image/webp').send(buffer)
-    } catch (error) {
-      if (error instanceof Error && (error as any).code !== 'ENOENT') {
-        throw error
+    } catch (catchError) {
+      if (
+        catchError instanceof Error &&
+        'code' in catchError &&
+        (catchError as NodeJS.ErrnoException).code !== 'ENOENT'
+      ) {
+        throw catchError
       }
     }
   }
